@@ -41,7 +41,7 @@ public abstract class BaseJsonRequestValidator {
 				}
 			}
 		}
-		else if(jsonFieldKeyValidator.userDefinedMessages().length>0) {
+		else {
 			for(UserDefinedMessage userDefinedMessageItr : jsonFieldKeyValidator.userDefinedMessages()) {
 				if(validatorType.equals(userDefinedMessageItr.validatorType())) {
 					errorMessage = userDefinedMessageItr.message();
@@ -59,6 +59,7 @@ public abstract class BaseJsonRequestValidator {
 						errorMessage = errorMessage.replace(JsonKeyValidatorConstant.PATH_PLACEHOLDER, path);
 					}
 					validationMessage.setMessage(errorMessage);
+					validationMessage.setMessageId(userDefinedMessageItr.messageId());
 					validationMessage.setType(userDefinedMessageItr.messageType());
 				}
 			}
