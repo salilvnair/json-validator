@@ -48,7 +48,7 @@ public class ConditionalValidator  extends BaseJsonRequestValidator  implements 
 							if(!EMPTY_STRING.equals(jsonFieldKeyValidator.messageId())) {
 								validationMessage.setMessageId(jsonFieldKeyValidator.messageId());
 							}
-							else if(jsonFieldKeyValidator.userDefinedMessages().length > 0) {
+							else {
 								for(UserDefinedMessage userDefinedMessageItr : jsonFieldKeyValidator.userDefinedMessages()) {
 									if(ValidatorType.CONDITIONAL.equals(userDefinedMessageItr.validatorType())) {
 										errorMessage = userDefinedMessageItr.message();
@@ -69,6 +69,7 @@ public class ConditionalValidator  extends BaseJsonRequestValidator  implements 
 											validationMessage.setMessageId(jsonFieldKeyValidator.messageId());
 										}
 										validationMessage.setMessage(errorMessage);
+										validationMessage.setMessageId(userDefinedMessageItr.messageId());
 										validationMessage.setType(userDefinedMessageItr.messageType());
 									}
 								}

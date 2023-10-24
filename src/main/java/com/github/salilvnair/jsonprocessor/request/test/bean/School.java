@@ -16,7 +16,26 @@ import com.github.salilvnair.jsonprocessor.request.type.ValidatorType;
 public class School implements JsonRequest {
 	@JsonKeyValidation(required=true)
 	private long id;
-	@JsonKeyValidation(conditional=true,condition="validateAlumini",mode=Mode.SYNC)
+	@JsonKeyValidation(
+			conditional=true,
+			required = true,
+			condition="validateAlumini",
+			userDefinedMessages = {
+					@UserDefinedMessage(
+							validatorType=ValidatorType.CONDITIONAL,
+							message="Non Hogward schools are not allowed",
+							messageType=MessageType.ERROR,
+							messageId = "100"
+					),
+					@UserDefinedMessage(
+							validatorType=ValidatorType.REQUIRED,
+							message="It is a required field",
+							messageType = MessageType.ERROR,
+							messageId = "101"
+					)
+			},
+			mode=Mode.SYNC
+	)
 	private String name;
 	@JsonKeyValidation(required=true, mode=Mode.SYNC)
 	private HeadMaster headMaster;

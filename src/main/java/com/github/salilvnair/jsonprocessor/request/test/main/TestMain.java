@@ -21,7 +21,7 @@ public class TestMain {
 		School school = new School();
 		school.setId(1);
 		school.setTotalStudents("");
-		school.setName("Kendriya Vidhayala");
+		//school.setName("Kendriya Vidhayala");
 		school.setYear("12/12/2019");
 		Student student = new Student();
 		student.setName("Test A");
@@ -40,7 +40,7 @@ public class TestMain {
 		headMaster.setName("Z");
 		school.setStudents(students);
 		school.setHeadMaster(headMaster);
-		school.setName("Bostan 5");
+		//school.setName("Bostan 5");
 
 		List<School> schools = new ArrayList<>();
 		schools.add(school);
