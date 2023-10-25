@@ -59,5 +59,6 @@ public @interface JsonKeyValidation {
 	 * */
 	UserDefinedMessage[] userDefinedMessages() default {};
 	Class<? extends AbstractCustomJsonValidatorTask> customTaskValidator() default AbstractCustomJsonValidatorTask.class;
+	String customTaskValidatorBeanName() default "";
 	MessageType messageType() default MessageType.ERROR;
 }

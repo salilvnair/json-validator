@@ -1,6 +1,7 @@
 package com.github.salilvnair.jsonprocessor.request.validator.main;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -151,17 +152,15 @@ public class ValidValueValidator extends BaseJsonRequestValidator implements Jso
 	public boolean satisfiesValidValueCondition(String condition, JsonKeyValidation jsonObjectKeyValidator, JsonValidatorContext jsonValidatorContext, String path, Object currentInstance) {
 		AbstractCustomJsonValidatorTask validatorTask;
 		try {
-			validatorTask = jsonObjectKeyValidator.customTaskValidator().newInstance();
-			if(validatorTask!=null) {
-				jsonValidatorContext.setPath(path);
-				jsonValidatorContext.setField(field);
-				jsonValidatorContext.setJsonRequest((JsonRequest) currentInstance);
-				validatorTask.setMethodName(condition);
-				JsonValidatorTaskUtil jsonValidatorTaskUtil = new JsonValidatorTaskUtil();
-				return (boolean) jsonValidatorTaskUtil.executeTask(validatorTask, jsonValidatorContext);
-			}
+			validatorTask = "".equals(jsonObjectKeyValidator.customTaskValidatorBeanName()) ? jsonObjectKeyValidator.customTaskValidator().getDeclaredConstructor().newInstance() : (AbstractCustomJsonValidatorTask)jsonValidatorContext.getBeanFunction().apply(jsonObjectKeyValidator.customTaskValidatorBeanName());
+			jsonValidatorContext.setPath(path);
+			jsonValidatorContext.setField(field);
+			jsonValidatorContext.setJsonRequest((JsonRequest) currentInstance);
+			validatorTask.setMethodName(condition);
+			JsonValidatorTaskUtil jsonValidatorTaskUtil = new JsonValidatorTaskUtil();
+			return (boolean) jsonValidatorTaskUtil.executeTask(validatorTask, jsonValidatorContext);
 		}
-		catch (InstantiationException | IllegalAccessException e) {}
+		catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ignore) {}
 		return false;
 	}
 	

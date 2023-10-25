@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import com.github.salilvnair.jsonprocessor.request.core.JsonRequest;
 import com.github.salilvnair.jsonprocessor.request.type.Mode;
@@ -22,13 +23,15 @@ public class JsonValidatorContext {
 	private Field parent;
 	private Mode mode;
 	private Map<String, List<PathInfoContext>> fieldPathInfo;
+	private Function<String, Object> beanFunction;
 
 	@Builder
-	public JsonValidatorContext(Map<String, Object> userValidatorMap, Map<String, List<String>> validValuesDataSet, Map<String, String> userDefinedMessageDataSet, Mode mode) {
+	public JsonValidatorContext(Map<String, Object> userValidatorMap, Map<String, List<String>> validValuesDataSet, Map<String, String> userDefinedMessageDataSet, Mode mode, Function<String, Object> beanFunction) {
 		this.userValidatorMap = userValidatorMap;
 		this.validValuesDataSet = validValuesDataSet;
 		this.userDefinedMessageDataSet = userDefinedMessageDataSet;
 		this.mode = mode;
+		this.beanFunction = beanFunction;
 		if(this.mode == null) {
 			this.mode = Mode.STRICT;
 		}
@@ -140,4 +143,11 @@ public class JsonValidatorContext {
 		this.mode = validationMode;
 	}
 
+	public Function<String, Object> getBeanFunction() {
+		return beanFunction;
+	}
+
+	public void setBeanFunction(Function<String, Object> beanFunction) {
+		this.beanFunction = beanFunction;
+	}
 }

@@ -7,12 +7,12 @@ import java.util.Map;
 
 import com.github.salilvnair.jsonprocessor.request.context.JsonValidatorContext;
 import com.github.salilvnair.jsonprocessor.request.context.ValidationMessage;
-import com.github.salilvnair.jsonprocessor.request.helper.JsonValidatorUtil;
 import com.github.salilvnair.jsonprocessor.request.service.JsonValidator;
 import com.github.salilvnair.jsonprocessor.request.test.bean.HeadMaster;
 import com.github.salilvnair.jsonprocessor.request.test.bean.School;
 import com.github.salilvnair.jsonprocessor.request.test.bean.Student;
 import com.github.salilvnair.jsonprocessor.request.test.bean.Subject;
+import com.github.salilvnair.jsonprocessor.request.test.task.SchoolCustomTask;
 import com.github.salilvnair.jsonprocessor.request.type.Mode;
 
 public class TestMain {
@@ -54,6 +54,12 @@ public class TestMain {
 														.builder()
 														.mode(Mode.SYNC)
 														.userValidatorMap(validatorMap)
+				.beanFunction((bean -> {
+					if("SchoolCustomTask".equals(bean)) {
+						return new SchoolCustomTask();
+					}
+					return null;
+				}))
 														.build();
 
 		List<ValidationMessage>  validationMsgList  = JsonValidator.validate(school, jsonValidatorContext);

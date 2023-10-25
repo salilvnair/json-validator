@@ -8,11 +8,10 @@ import com.github.salilvnair.jsonprocessor.request.annotation.UserDefinedMessage
 import com.github.salilvnair.jsonprocessor.request.constant.JsonKeyValidatorConstant;
 import com.github.salilvnair.jsonprocessor.request.core.JsonRequest;
 import com.github.salilvnair.jsonprocessor.request.helper.DateParsingUtil.DateFormat;
-import com.github.salilvnair.jsonprocessor.request.test.task.SchoolCustomTask;
 import com.github.salilvnair.jsonprocessor.request.type.MessageType;
 import com.github.salilvnair.jsonprocessor.request.type.Mode;
 import com.github.salilvnair.jsonprocessor.request.type.ValidatorType;
-@JsonKeyValidation(id="School", customTaskValidator=SchoolCustomTask.class)
+@JsonKeyValidation(id="School", customTaskValidatorBeanName ="SchoolCustomTask")
 public class School implements JsonRequest {
 	@JsonKeyValidation(required=true)
 	private long id;

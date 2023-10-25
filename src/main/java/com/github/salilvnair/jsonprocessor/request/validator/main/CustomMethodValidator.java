@@ -1,6 +1,7 @@
 package com.github.salilvnair.jsonprocessor.request.validator.main;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -32,7 +33,7 @@ public class CustomMethodValidator extends BaseJsonRequestValidator implements J
 			JsonKeyValidation jsonFieldKeyValidator = field.getAnnotation(JsonKeyValidation.class);
 			AbstractCustomJsonValidatorTask validatorTask;
 			try {
-				validatorTask = jsonObjectKeyValidator.customTaskValidator().newInstance();
+				validatorTask = "".equals(jsonObjectKeyValidator.customTaskValidatorBeanName()) ? jsonObjectKeyValidator.customTaskValidator().getDeclaredConstructor().newInstance() : (AbstractCustomJsonValidatorTask)jsonValidatorContext.getBeanFunction().apply(jsonObjectKeyValidator.customTaskValidatorBeanName());
 				if(validatorTask!=null) {
 					if(!EMPTY_STRING.equals(jsonFieldKeyValidator.customTask())) {
 						jsonValidatorContext.setPath(path);
@@ -81,7 +82,7 @@ public class CustomMethodValidator extends BaseJsonRequestValidator implements J
 					}
 				}
 			} 
-			catch (InstantiationException | IllegalAccessException e) {}
+			catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {}
 		}
 		return Collections.unmodifiableList(errors);
 	}
